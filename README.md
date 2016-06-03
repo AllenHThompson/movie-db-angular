@@ -1,0 +1,3 @@
+This app was made in the 5th week of a coding bootcamp. I used Angular ng-route to navigate through a free movie database API.
+
+...

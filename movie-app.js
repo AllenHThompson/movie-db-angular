@@ -1,3 +1,4 @@
+// This is just Shanda adding a commit to your movie-app js file
 var API_KEY = 'fec8b5ab27b292a68294261bb21b04a5';
 
 var app = angular.module('my-app',['ngRoute']);

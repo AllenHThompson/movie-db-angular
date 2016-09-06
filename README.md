@@ -8,5 +8,3 @@
 * CSS3
 * JavaScript
 * AngularJS
-
-[Check it out](http://danielmovieapp-angular.surge.sh/#/)

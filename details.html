@@ -9,7 +9,15 @@
 
 
 
-               {{data.title}}
+
+               <div>
+                    {{data.title}}
+                    <img ng-src="http://image.tmdb.org/t/p/w500{{data.poster_path}}">
+               </div>
+
+               <div ng-click="back()">
+                    <a href="">Back</a>
+               </div>
 
 
 

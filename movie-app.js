@@ -20,8 +20,8 @@ app.controller('MainController', function($scope, $http) {
      // $scope.imgURL = 'http://image.tmdb.org/t/p/w382';
      // $scope.dataResults = [];
      $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY).success(function(movies) {
-          console.log(movies);
-          console.log(movies.total_pages);
+          console.log("movies data: " + movies);
+          console.log("total pages: " + movies.total_pages);
           $scope.movies = movies.results;
           // $scope.movies = movies;
      });
@@ -40,7 +40,7 @@ app.controller('DetailsController', function($scope, $http, $routeParams) {
           $routeParams.movieID + '?api_key=' + API_KEY;
      $http.get(url)
      .success(function(data){
-          console.log(data);
+          console.log("data: " + data);
           $scope.movieID = $routeParams.movieID;
           $scope.data = data;
      });

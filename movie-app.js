@@ -15,57 +15,59 @@ app.config(function($routeProvider) {
      });
 });
 
-app.factory('factory', function(){
+app.factory('searchService', function($http) {
+     var counter = 0;
      return {
           more: function() {
                $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
-                    $scope.movies = movies.results
+                    $scope.movies = movies.results;
+                    if (counter < movies.total_pages){
+                         console.log(movies.total_pages);
+                         counter++;
+                    } else {
+                         counter = 0;
+                    }
                     //console.log(movies.results[1])
                });
-               console.log("you clicked");
-
-               if (counter < movies.total_pages){
-                    console.log(movies.total_pages)
-                    counter++;
-               } else {
-                    counter = 0;
+                    console.log("you clicked");
+                    console.log(counter);
                }
-                    console.log(counter)
-               };
-     }
-})
+     };
+});
 
-app.controller('MainController', function($scope, $http) {
+app.controller('MainController', function($scope, $http, searchService) {
      var counter = 2;
      // $http.get("http://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY)
 
      // $scope.imgURL = 'http://image.tmdb.org/t/p/w382';
 
-     // $scope.dataResults = [];
-     $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY).success(function(movies) {
-          console.log(movies);
-          $scope.movies = movies.results;
-          console.log(movies.results);
+     $scope.dataResults = [];
+     var x = []
+     $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY)
+          .success(function(movies) {
 
-          $scope.more = function() {
-               $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
-                    $scope.movies = movies.results
-                    //console.log(movies.results[1])
-               });
-               console.log("you clicked");
+               $scope.movies = movies.results;
+               console.log(movies);
 
-               if (counter < movies.total_pages){
-                    console.log(movies.total_pages)
-                    counter++;
-               } else {
-                    counter = 0;
-               }
+               searchService.more()
 
-               console.log(counter)
+               $scope.more = function() {
+                    $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
+                         $scope.movies = movies.results
+                         //console.log(movies.results[1])
+                    });
+                    console.log("you clicked");
 
-          };
-          // $scope.movies = movies;
-     });
+                    if (counter < movies.total_pages){
+                         console.log(movies.total_pages)
+                         counter++;
+                    } else {
+                         counter = 0;
+                    }
+                    console.log(counter)
+               };
+               // $scope.movies = movies;
+          });
 });
 
 app.controller('DetailsController', function($scope, $http, $routeParams) {
@@ -74,7 +76,7 @@ app.controller('DetailsController', function($scope, $http, $routeParams) {
           $routeParams.movieID + '?api_key=' + API_KEY;
      $http.get(url)
      .success(function(data){
-          console.log("data: " + data);
+          console.log("data: " , data);
           $scope.movieID = $routeParams.movieID;
           $scope.data = data;
      });

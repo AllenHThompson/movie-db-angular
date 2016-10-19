@@ -15,6 +15,26 @@ app.config(function($routeProvider) {
      });
 });
 
+app.factory('factory', function(){
+     return {
+          more: function() {
+               $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
+                    $scope.movies = movies.results
+                    //console.log(movies.results[1])
+               });
+               console.log("you clicked");
+
+               if (counter < movies.total_pages){
+                    console.log(movies.total_pages)
+                    counter++;
+               } else {
+                    counter = 0;
+               }
+                    console.log(counter)
+               };
+     }
+})
+
 app.controller('MainController', function($scope, $http) {
      var counter = 2;
      // $http.get("http://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY)

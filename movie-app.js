@@ -1,5 +1,6 @@
 var app = angular.module('my-app',['ngRoute']);
 
+//var BASE_URL =
 var API_KEY = 'fec8b5ab27b292a68294261bb21b04a5';
 
 app.config(function($routeProvider) {
@@ -15,24 +16,37 @@ app.config(function($routeProvider) {
 });
 
 app.controller('MainController', function($scope, $http) {
+     var counter = 2;
      // $http.get("http://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY)
 
      // $scope.imgURL = 'http://image.tmdb.org/t/p/w382';
+
      // $scope.dataResults = [];
      $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY).success(function(movies) {
-          console.log("movies data: " + movies);
-          console.log("total pages: " + movies.total_pages);
+          console.log(movies);
           $scope.movies = movies.results;
+          console.log(movies.results);
+
+          $scope.more = function() {
+               $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
+                    $scope.movies = movies.results
+                    //console.log(movies.results[1])
+               });
+               console.log("you clicked");
+
+               if (counter < movies.total_pages){
+                    console.log(movies.total_pages)
+                    counter++;
+               } else {
+                    counter = 0;
+               }
+
+               console.log(counter)
+
+          };
           // $scope.movies = movies;
      });
-
-     $scope.click = function() {
-          console.log("you clicked");
-     };
-
 });
-
-
 
 app.controller('DetailsController', function($scope, $http, $routeParams) {
      $scope.movieID = $routeParams.movieID;

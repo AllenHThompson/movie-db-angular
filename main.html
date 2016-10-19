@@ -1,9 +1,12 @@
-<h1>Main Page</h1>
+<h1>Main Page</h1> {{movie.page}}
 
-<a ng-repeat="movie in movies" href="#{{movie.id}}">
-     <img ng-src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}">
-</a>
+<div>
+     <div ng-click="more()">
+          <a href="">More</a>
+     </div>
+     <a ng-repeat="movie in movies" href="#{{movie.id}}">
+          <img ng-src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}">
+     </a>
 
-<div ng-click="click()">
-     <a href="">More</a>
+
 </div>

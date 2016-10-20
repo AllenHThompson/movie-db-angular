@@ -67,7 +67,7 @@ app.controller('MainController', function($scope, $http) {
                          console.log("arr: ",arr);
                          console.log("arr.results: ", arr.results)
                          console.log("y: ", y)
-                         console.log("y.page: ",y[0].page)
+                         console.log("y[0][0].results[0].id: ",y[0][0].results[0].id)
 
                          //console.log(movies.results[1])
                     });

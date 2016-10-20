@@ -1,5 +1,7 @@
 var app = angular.module('my-app',['ngRoute']);
-var x = []
+const what = [];
+const arr = [];
+var y = []
 
 //var BASE_URL =
 var API_KEY = 'fec8b5ab27b292a68294261bb21b04a5';
@@ -21,7 +23,7 @@ app.factory('counterService', function() {
           counter:  function(){
                          return 2;
                     }
-          }
+          };
 });
 
 app.controller('MainController', function($scope, $http) {
@@ -32,7 +34,7 @@ app.controller('MainController', function($scope, $http) {
 
      // $scope.imgURL = 'http://image.tmdb.org/t/p/w382';
 
-     $scope.dataResults = [];
+     //$scope.dataResults = [];
 
 
      $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY)
@@ -40,37 +42,44 @@ app.controller('MainController', function($scope, $http) {
 
                $scope.movies = movies.results;
 
-               x.push(movies)
+
+
+               arr.push(movies);
 
                console.log(movies);
 
-               console.log("x: ",x)
+               console.log("arr: ",arr);
 
 
-               $scope.more = function(x) {
+               //return x
 
+
+               $scope.more = function(arr) {
 
                     $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
-                         x = []
-                         $scope.movies = movies.results
-                         x.push(movies)
-                         console.log("x: ",x)
-                         console.log("you clicked");
 
+                         var arr = [];
+                         $scope.movies = movies.results;
+
+                         console.log("you clicked");
+                         y.push(arr);
+                         arr.push(movies);
+                         console.log("arr: ",arr);
+                         console.log("arr.results: ", arr.results)
+                         console.log("y: ", y)
+                         console.log("y.page: ",y[0].page)
 
                          //console.log(movies.results[1])
                     });
 
-
-
-                    if (counter < movies.total_pages){
-                         console.log(movies.total_pages)
+                    if (counter < movies.total_pages) {
+                         console.log(movies.total_pages);
                          counter++;
                     } else {
                          counter = 0;
                     }
                     x = counter;
-                    console.log(counter)
+                    console.log(counter);
                };
 
                // $scope.movies = movies;
@@ -79,7 +88,7 @@ app.controller('MainController', function($scope, $http) {
 
 app.controller('DetailsController', function($scope, $http, $routeParams, counterService) {
      var counter;
-     counter = counterService.counter()
+     counter = counterService.counter();
      $scope.movieID = $routeParams.movieID;
      var url = 'http://api.themoviedb.org/3/movie/' +
           $routeParams.movieID + '?api_key=' + API_KEY;

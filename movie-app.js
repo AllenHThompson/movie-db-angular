@@ -1,4 +1,5 @@
 var app = angular.module('my-app',['ngRoute']);
+var x = []
 
 //var BASE_URL =
 var API_KEY = 'fec8b5ab27b292a68294261bb21b04a5';
@@ -18,34 +19,49 @@ app.config(function($routeProvider) {
 app.factory('counterService', function() {
      return {
           counter:  function(){
-                         return 2
+                         return 2;
                     }
           }
 });
 
 app.controller('MainController', function($scope, $http) {
      var counter = 2;
+     //var x = []
+
      // $http.get("http://api.themoviedb.org/3/movie/now_playing?api_key=" + API_KEY)
 
      // $scope.imgURL = 'http://image.tmdb.org/t/p/w382';
 
      $scope.dataResults = [];
-     var x = []
+
+
      $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY)
           .success(function(movies) {
 
                $scope.movies = movies.results;
+
+               x.push(movies)
+
                console.log(movies);
 
+               console.log("x: ",x)
 
 
+               $scope.more = function(x) {
 
-               $scope.more = function() {
+
                     $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
+                         x = []
                          $scope.movies = movies.results
+                         x.push(movies)
+                         console.log("x: ",x)
+                         console.log("you clicked");
+
+
                          //console.log(movies.results[1])
                     });
-                    console.log("you clicked");
+
+
 
                     if (counter < movies.total_pages){
                          console.log(movies.total_pages)

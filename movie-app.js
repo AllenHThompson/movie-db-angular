@@ -18,15 +18,19 @@ app.config(function($routeProvider) {
      });
 });
 
-app.factory('counterService', function() {
+app.factory('counterService', function($http) {
      return {
-          counter:  function(){
-                         return 2;
-                    }
+          counter:       2,
+          getCounter:    function() {
+                              return this.counter;
+                         },
+          setCounter:    function(counter) {
+                              this.counter = counter;
+                         }
           };
 });
 
-app.controller('MainController', function($scope, $http) {
+app.controller('MainController', function($scope, $http, counterService) {
      var counter = 2;
      //var x = []
 
@@ -50,9 +54,7 @@ app.controller('MainController', function($scope, $http) {
 
                console.log("arr: ",arr);
 
-
                //return x
-
 
                $scope.more = function(arr) {
 
@@ -83,20 +85,20 @@ app.controller('MainController', function($scope, $http) {
                     x = counter;
                     console.log(counter);
                };
-
                // $scope.movies = movies;
           });
+          counterService.setCounter(counter);
 });
 
 app.controller('DetailsController', function($scope, $http, $routeParams, counterService) {
      var counter;
-     counter = counterService.counter();
+     counter = counterService.counter;
      $scope.movieID = $routeParams.movieID;
      var url = 'http://api.themoviedb.org/3/movie/' +
           $routeParams.movieID + '?api_key=' + API_KEY;
      $http.get(url)
      .success(function(data){
-          console.log("data: " , data);
+          console.log("data: ", data);
           $scope.movieID = $routeParams.movieID;
           $scope.data = data;
           $scope.back = function(){
@@ -105,9 +107,8 @@ app.controller('DetailsController', function($scope, $http, $routeParams, counte
 
                $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY +  "&page="+ counter).success(function(movies) {
                     $scope.movies = movies.results
-                    //console.log(movies.results[1])
+                    console.log("get back method")
                });
-
           }
      });
 });

@@ -62,12 +62,14 @@ app.controller('MainController', function($scope, $http) {
                          $scope.movies = movies.results;
 
                          console.log("you clicked");
-                         y.push(arr);
+
                          arr.push(movies);
+                         y.push(arr);
                          console.log("arr: ",arr);
-                         console.log("arr.results: ", arr.results)
+                         console.log("arr[0].results: ", arr.results)
                          console.log("y: ", y)
-                         console.log("y[0][0].results[0].id: ",y[0][0].results[0].id)
+                         console.log("y[0][0].results[2].id: ",y[0][0].results[2].id)
+                         console.log("y[0][0].page: ",y[0][0].page)
 
                          //console.log(movies.results[1])
                     });

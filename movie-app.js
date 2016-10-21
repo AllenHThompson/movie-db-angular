@@ -1,7 +1,7 @@
 var app = angular.module('my-app',['ngRoute']);
 
 var arr = [];
-var y = []
+var y = [];
 
 //var BASE_URL =
 var API_KEY = 'fec8b5ab27b292a68294261bb21b04a5';
@@ -10,6 +10,14 @@ app.config(function($routeProvider) {
      $routeProvider
      .when('/', {
           controller: 'MainController',
+          templateUrl: 'main.html'
+     })
+     .when('/counter/:counter', {
+          controller: 'BackController',
+          templateUrl: 'main.html'
+     })
+     .when('/cache', {
+          controller: 'CacheController',
           templateUrl: 'main.html'
      })
      .when('/:movieID', {
@@ -28,6 +36,17 @@ app.factory('counterService', function($http) {
                               this.counter = counter;
                          }
           };
+});
+
+app.controller('CacheController', function($scope, $http){
+     //console.log("CacheController is here");
+     for (var i = 0; i <= 10; i++) {
+          setInterval($http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' +     API_KEY + '&page=' + i).success(function(movies) {
+               arr.push(movies);
+               y.push(arr);
+          }), 1000);
+     }
+     //console.log("y: ", y);
 });
 
 app.controller('MainController', function($scope, $http, counterService) {
@@ -106,7 +125,7 @@ app.controller('DetailsController', function($scope, $http, $routeParams, counte
                console.log("you clicked the back button")
                console.log(counter)
 
-               $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY +  "&page="+ counter).success(function(movies) {
+               $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ 9).success(function(movies) {
                     console.log("back movies: ", movies)
                     $scope.movies = movies.results
                     console.log("get back method")

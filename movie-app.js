@@ -1,6 +1,6 @@
 var app = angular.module('my-app',['ngRoute']);
-const what = [];
-const arr = [];
+
+var arr = [];
 var y = []
 
 //var BASE_URL =
@@ -101,11 +101,13 @@ app.controller('DetailsController', function($scope, $http, $routeParams, counte
           console.log("data: ", data);
           $scope.movieID = $routeParams.movieID;
           $scope.data = data;
+
           $scope.back = function(){
                console.log("you clicked the back button")
                console.log(counter)
 
                $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY +  "&page="+ counter).success(function(movies) {
+                    console.log("back movies: ", movies)
                     $scope.movies = movies.results
                     console.log("get back method")
                });

@@ -1,7 +1,7 @@
 var app = angular.module('my-app',['ngRoute']);
 
+var tempArray = [];
 var arr = [];
-var y = [];
 
 //var BASE_URL =
 var API_KEY = 'fec8b5ab27b292a68294261bb21b04a5';
@@ -40,13 +40,15 @@ app.factory('counterService', function($http) {
 
 app.controller('CacheController', function($scope, $http){
      //console.log("CacheController is here");
-     for (var i = 0; i <= 10; i++) {
-          setInterval($http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' +     API_KEY + '&page=' + i).success(function(movies) {
-               arr.push(movies);
-               y.push(arr);
-          }), 1000);
+     for (var i = 1; i <= 10; i++) {
+          var url = 'http://api.themoviedb.org/3/movie/now_playing?api_key='+API_KEY+'&page='+i
+          var fun = $http.get(url).success(function(movies) {
+               // tempArray.push(movies)
+               // arr.push(tempArray)
+          });
+          setInterval(fun, 1000);
      }
-     //console.log("y: ", y);
+     //console.log("arr: ", arr);
 });
 
 app.controller('MainController', function($scope, $http, counterService) {
@@ -67,30 +69,30 @@ app.controller('MainController', function($scope, $http, counterService) {
 
 
 
-               arr.push(movies);
+               tempArray.push(movies);
 
                console.log(movies);
 
-               console.log("arr: ",arr);
+               console.log("tempArray: ",tempArray);
 
                //return x
 
-               $scope.more = function(arr) {
+               $scope.more = function(tempArray) {
 
                     $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
 
-                         var arr = [];
+                         var tempArray = [];
                          $scope.movies = movies.results;
 
                          console.log("you clicked");
 
-                         arr.push(movies);
-                         y.push(arr);
-                         console.log("arr: ",arr);
-                         console.log("arr[0].results: ", arr.results)
-                         console.log("y: ", y)
-                         console.log("y[0][0].results[2].id: ",y[0][0].results[2].id)
-                         console.log("y[0][0].page: ",y[0][0].page)
+                         tempArray.push(movies);
+                         arr.push(tempArray);
+                         console.log("tempArray: ",tempArray);
+                         console.log("tempArray[0].results: ", tempArray.results)
+                         console.log("arr: ", arr)
+                         console.log("arr[0][0].results[2].id: ",arr[0][0].results[2].id)
+                         console.log("arr[0][0].page: ",arr[0][0].page)
 
                          //console.log(movies.results[1])
                     });

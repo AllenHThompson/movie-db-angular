@@ -41,12 +41,15 @@ app.factory('counterService', function($http) {
 app.controller('CacheController', function($scope, $http){
      //console.log("CacheController is here");
      for (var i = 1; i <= 10; i++) {
-          var url = 'http://api.themoviedb.org/3/movie/now_playing?api_key='+API_KEY+'&page='+i
+          //var url = 'http://api.themoviedb.org/3/movie/now_playing?api_key='+API_KEY+'&page='+i
+          var url = "http"
           var fun = $http.get(url).success(function(movies) {
                // tempArray.push(movies)
                // arr.push(tempArray)
-          });
-          setInterval(fun, 1000);
+          })
+          console.log("interation"+i)
+
+          setInterval(fun, 5000);
      }
      //console.log("arr: ", arr);
 });
@@ -61,31 +64,31 @@ app.controller('MainController', function($scope, $http, counterService) {
 
      //$scope.dataResults = [];
 
+     //VVVV ALTERNATIVE HTTP CALL VVVV
+     // $http({
+     //      method: 'GET',
+     //      url: 'http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY,
+     // })
+     // .success(function (movies, status, headers, config) {
+     //      $scope.movies = movies.results;
+     // })
+     // .error(function (movies, status, headers, config) {
+     //      console.log(status)
+     //      return {"status": false};
+     // });
 
      $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY)
           .success(function(movies) {
-
                $scope.movies = movies.results;
-
-
-
                tempArray.push(movies);
-
                console.log(movies);
-
                console.log("tempArray: ",tempArray);
-
                //return x
-
                $scope.more = function(tempArray) {
-
                     $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + "&page="+ counter).success(function(movies) {
-
                          var tempArray = [];
                          $scope.movies = movies.results;
-
                          console.log("you clicked");
-
                          tempArray.push(movies);
                          arr.push(tempArray);
                          console.log("tempArray: ",tempArray);
@@ -93,10 +96,8 @@ app.controller('MainController', function($scope, $http, counterService) {
                          console.log("arr: ", arr)
                          console.log("arr[0][0].results[2].id: ",arr[0][0].results[2].id)
                          console.log("arr[0][0].page: ",arr[0][0].page)
-
                          //console.log(movies.results[1])
                     });
-
                     if (counter < movies.total_pages) {
                          console.log(movies.total_pages);
                          counter++;

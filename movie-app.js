@@ -38,20 +38,20 @@ app.factory('counterService', function($http) {
           };
 });
 
+/*I'M EXPERIMENTING TRY TO DOWNLOAD ALL MOVIE RESULTS AND STORING IN AN ARRAY*/
 app.controller('CacheController', function($scope, $http){
      //console.log("CacheController is here");
      for (var i = 1; i <= 10; i++) {
-          //var url = 'http://api.themoviedb.org/3/movie/now_playing?api_key='+API_KEY+'&page='+i
-          var url = "http"
-          var fun = $http.get(url).success(function(movies) {
-               // tempArray.push(movies)
-               // arr.push(tempArray)
-          })
-          console.log("interation"+i)
+          console.log("interation" + i)
 
-          setInterval(fun, 5000);
+          setTimeout(function() {
+               $http.get('http://api.themoviedb.org/3/movie/now_playing?api_key=' + API_KEY + '&page=' + i).success(function(movies) {
+                    console.log("i:", i)
+                    tempArray.push(movies)
+                    arr.push(tempArray)
+          })}, 1000);
      }
-     //console.log("arr: ", arr);
+     console.log("arr: ", arr);
 });
 
 app.controller('MainController', function($scope, $http, counterService) {
